@@ -33,6 +33,7 @@ int main()
 	std::future<int> ft = std::async( add, 10, 20);
 
 
+
     std::cout << "continue main : " << std::this_thread::get_id() << std::endl;
     std::this_thread::sleep_for(2s);
 
@@ -41,5 +42,17 @@ int main()
     std::cout << "result : " << ret << std::endl;
 }
 
+// C++에서 스레드를 만드는 근본적인 방법은 한개 입니다.
+// => std::thread
 
+// std::thread : 사용자가 직접 스레드를 생성하는것 
+// std::async  : 이 함수가 내부적으로 "std::thread" 사용 ( 정확히는 std::thread + thread pool 기술)
 
+// promise model       : 사용자가 std::thread 로 스레드를 직접 생성
+// packaged_task model : 사용자가 std::thread 로 스레드를 직접 생성
+// std::async          : 사용자가 std::thread 사용 안함.
+//						 std::async 함수가 내부적으로 "std::thread" 사용
+
+// effective modern C++
+// => 간단한 스레드 생성은 "std::thread" 보다 "std::async" 가 좋다.
+// => 간결하고 대부분의 환경에 성능도 더 좋다.(thread pool 기술이기 때문에)
