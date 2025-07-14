@@ -20,11 +20,8 @@ void init()
 }
 //------------------------------------------------------------
 
-
-
 // 구간의 합을 구하는 함수.
-template<typename IT, typename RT> 
-void sum(IT first, IT last, RT& result)
+void sum(int first, int last, int& result)
 {
     result = std::accumulate(first, last, result);
 }
