@@ -23,8 +23,10 @@ void divide(std::promise<int>& p, int a, int b)
 	{
 		// 이제 promise 를 통해서 주스레드에 그대로 전달합니다.
 		// => future 의 get() 함수로 전달
-		p.set_exception( std::current_exception() );		
+		// p.set_exception( std::current_exception() );		
+		p.set_exception_at_thread_exit( std::current_exception() );	// 스레드 종료시 예외 전달	
 	} 	
+
 }
 
 int main()
