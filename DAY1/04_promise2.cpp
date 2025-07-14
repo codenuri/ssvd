@@ -9,7 +9,6 @@ using namespace std::literals;
 void add(int a, int b, std::promise<int>& pro )
 {
 	int s = a + b;
-
 	std::this_thread::sleep_for(3s);
 
 	// 연산의 결과가 나오면 즉시 promise 객체를 통해서 알려 줍니다.
@@ -20,7 +19,6 @@ void add(int a, int b, std::promise<int>& pro )
 	std::this_thread::sleep_for(2s);
 	std::cout << "finish add\n";
 }
-
 int main()
 {
 	// #1. promise 객체를 만들고, 결과를 대기할 future 객체를 꺼내 놓습니다.
@@ -28,7 +26,9 @@ int main()
 	std::future<int> ft = pro.get_future();
 
 	// #2. promise 객체를 참조나 move 로 전달합니다.
-	std::thread t(add, 10, 20, std::ref(pro));
+	std::thread t(add, 10, 20, std::ref(pro)); 
+
+
 
 	// #3. 주스레드는 다른 작업을 수행하다가...
 	std::cout << "주스레드(main) 은 계속 실행\n";
@@ -38,10 +38,7 @@ int main()
 						// 2. 결과가 없다면 대기 상태에 진입
 
 	std::cout << "결과 : " << ret << std::endl;
-
-
 	t.join();
-
 	std::cout << "finish main\n";
 }
 
