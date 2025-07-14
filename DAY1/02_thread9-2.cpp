@@ -45,8 +45,34 @@ void parallel_sum(T first, T last, int& result)
 
 	std::cout << "필요한 스레드 갯수   : " << cnt_thread << std::endl;
 	std::cout << "스레드당 데이타 갯수 : " << block_size << std::endl;
+	//----------------------------------------------------------
 
+	std::vector<std::thread> thread_vector(cnt_thread - 1); // 24개 - 주스레드 = 23개
+	std::vector<int> result_vector(cnt_thread);
+
+	T start = first; // 하나의 스레드가 수행할 블럭의 시작
+
+	for( int i = 0; i < cnt_thread-1; i++)
+	{
+		T end = std::next(start, block_size);
+
+		thread_vector[i] = std::thread(sum<T>, start, end, result_vector[i]);
+
+		start = end;
+	}
+
+	// 이제 마지막 구간(start ~ last) 은 주스레드가 수행하면 됩니다.
+	sum(start, last, result_vector[cnt_thread-1]);
+
+	// 모든 스레드 종료를 대기 합니다.
+	for( auto& t : thread_vector)
+		t.join();
+
+	// 이제 각 스레드의 연산 결과는 result_vector 에 있으므로 모두 합하면 됩니다.
+	result = std::accumulate(result_vector.begin(), result_vector.end(), 0);
 }
+
+
 
 
 
