@@ -56,13 +56,13 @@ void parallel_sum(T first, T last, int& result)
 	{
 		T end = std::next(start, block_size);
 
-		thread_vector[i] = std::thread(sum<T>, start, end, result_vector[i]);
+		thread_vector[i] = std::thread(&sum<T>, start, end, std::ref(result_vector[i]) );
 
 		start = end;
 	}
 
 	// 이제 마지막 구간(start ~ last) 은 주스레드가 수행하면 됩니다.
-	sum(start, last, result_vector[cnt_thread-1]);
+	sum(start, last, std::ref(result_vector[cnt_thread-1]));
 
 	// 모든 스레드 종료를 대기 합니다.
 	for( auto& t : thread_vector)
