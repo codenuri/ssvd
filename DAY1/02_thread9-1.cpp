@@ -55,7 +55,11 @@ void parallel_sum(T first, T last, int& result)
 	// => 결국, 스레드 프로그램의 핵심중의 하나는 "몇개" 를 만들것인가!! 중요합니다.
 	const unsigned long cnt_thread = std::min(hw_thread, max_thread);
 
-	std::cout << " 필요한 스레드 갯수 : " << cnt_thread << std::endl;
+	const unsigned long block_size = cnt_element / cnt_thread; 
+
+
+	std::cout << "필요한 스레드 갯수   : " << cnt_thread << std::endl;
+	std::cout << "스레드당 데이타 갯수 : " << block_size << std::endl;
 
 }
 
