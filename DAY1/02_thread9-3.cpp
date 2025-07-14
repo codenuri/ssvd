@@ -7,7 +7,7 @@
 #include <iostream>
 #include "chronometry.h" // 성능 측정을 위한 "chronometry()" 함수가 있습니다.
 
-constexpr std::size_t sz = 1'000'000;
+constexpr std::size_t sz = 100'000'000;
 
 std::vector<int> v;
 
@@ -81,11 +81,20 @@ int main()
     
 	chronometry(sum<std::vector<int>::iterator>, v.begin(), v.end(), s);
 							// sum(v.begin(), v.end(), s) 의 수행 시간을 출력해 달라.
+							// 0.0011211
+							// 0.111021
 
 //	chronometry(parallel_sum<std::vector<int>::iterator>, v.begin(), v.end(), s);
+//							// 0.0022226 -   1,000,000
+							// 0.0164441 - 100,000,000
 
     std::cout << s << std::endl;
 }
+// 위 결과의 의미
+// => 100만개의 경우 싱글이 빠르고
+// => 1억개의 경우 멀티의 경우 멀티가 10배 향상
+// 해결책 : 최소 데이타를 25개로 하지 말고 "10만개" 정도로 놓고 다양한 테스트
+//         해보세요
 
 
 
