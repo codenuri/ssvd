@@ -8,14 +8,22 @@ int next3times()
 {
 //	int n = 0; 	// 지역변수. stack 에 놓이고, 함수 호출이 종료 되면 파괴.
 				// 즉, 이렇게 만들면 항상 3 반환
+				// 스택은 스레드당 한개씩 생성됩니다.
+				// 따라서, 이부분을 2개의 스레드가 수행하면, 각각 자신의 스택에 n 이 생성됩니다.
+				// 여러개 스레드가 n 을 사용해도 각각 자신의 n 을 사용
 	
 	static int n = 0;	// static 지역변수
-						// "static storage(data section)" 에 놓이고
+						// "static storage(data section)" 에 놓이고, (전역변수 위치와 동일) 
 						// 함수 호출이 종료되어도 파괴 안됨.
+						// 모든 스레드가 공유, 즉, 프로세스당 한개(프로세스의 자원)
+						// 그래서 이함수는
+						// "스레드당 작업(3의배수)" 가 아닌 "모든 스레드가 공유하는 3의 배수" 반환
 
 	n = n + 3;
 	return n;
 }
+
+
 void foo(const std::string& name)
 {
 	std::cout << name << " : " << next3times() << std::endl; // 3
