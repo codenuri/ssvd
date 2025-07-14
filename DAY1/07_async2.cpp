@@ -15,7 +15,7 @@ int main()
 	// 핵심 : std::async 의 launch option
 
  // std::future<int> ft = std::async( std::launch::async,    add, 10, 20); // 새로운 스레드로 add 실행
-	std::future<int> ft = std::async( std::launch::deffered, add, 10, 20); // 지연된 실행
+	std::future<int> ft = std::async( std::launch::deferred, add, 10, 20); // 지연된 실행
 									// => 새로운 스레드가 아닌 주스레드가 실행하는데
 									// => 결과가 필요할때 (ft.get() 할때 )  실행해 달라.
 
