@@ -63,6 +63,18 @@ void parallel_sum(T first, T last, int& result)
 
 }
 
+// 인텔 최신 CPU(P core 개념, 2021.10월 발표)
+// => 위 코드를 사용해도 나쁘지 않음..
+// => 그런데, 정말 최적화 하려면 부하가 큰 작업은 P core 에서만 실행
+// 1. P Core 만의 갯수 구하기 => C++ 표준 지원 안함,
+//                             각 OS 의 시스템 콜 사용(windows 는 11 이후만 가능)
+
+// 2. 생성된 스레드를 P core 에서만 실행되도록 => C++ 지원 안함
+// => 단, 각 OS 의 시스템 콜로 제공됨
+// Windows : SetThreadAffinityMask
+// Linux : sched_setaffinity
+
+
 
 
 
