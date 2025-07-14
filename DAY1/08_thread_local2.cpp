@@ -30,7 +30,7 @@ int next3times()
 
 void foo(const std::string& name)
 {
-	std::osyncstream<std::ostream> out(std::cout);
+	std::osyncstream out(std::cout); // <== 이렇게 사용
 
 	out << name << " : " << next3times() << std::endl; // 3
 	out << name << " : " << next3times() << std::endl; // 6
