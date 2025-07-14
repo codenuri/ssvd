@@ -21,7 +21,8 @@ void init()
 //------------------------------------------------------------
 
 // 구간의 합을 구하는 함수.
-void sum(int first, int last, int& result)
+template<typename T>
+void sum(T first, T last, int& result)
 {
 	// std::accumulate : 주어진 구간의 합을 구하는 C++ 표준 함수
 	//                   마지막 인자는 합을 구할때 사용하는 sum 변수의 초기값(보통 0)
