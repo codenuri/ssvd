@@ -22,7 +22,7 @@ int main()
     int s = std::accumulate(v2.begin(), v2.end(), 0);
     
 	// 작업 #4. 작업#3의 결과를 출력합니다.
-    std::cout << "\n" << ret << std::endl;
+    std::cout << "\n" << s << std::endl;
 }
 // 위 코드는 4개의 작업을 순차적으로 진행합니다.
 // 그런데, 작업#2 와 작업#3은 서로 독립적입니다. 동시에 진행해도 됩니다.
