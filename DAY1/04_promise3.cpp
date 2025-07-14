@@ -14,7 +14,7 @@ void divide(std::promise<int>& p, int a, int b)
 	try 
 	{
 		if ( b == 0 )
-			throw std::runtime_exception("divide by zero");	
+			throw std::runtime_error("divide by zero");	
 
 		// 이제 이 안에서 예외 가능성이 있는 모든 코드를 작성합니다.
 		p.set_value(a / b);
