@@ -1,17 +1,21 @@
 #include <iostream>
 #include <thread>
+#include <chrono>
+using namespace std::literals;
 
-void foo(int a, int b)
+void foo()
 {
-    std::cout << "foo : " << a << ", " << b << std::endl;
+	for ( int i = 0; i < 10; i++ )
+	{
+    	std::cout << "foo : " << i << std::endl;
+		std::this_thread::sleep_for(1s);
+	}
 }
 
 int main()
 {
-    std::thread t1(&foo, 10, 20);
-    std::thread t2(&foo, 10, 20);
+    std::thread t1(&foo);
 
     t1.join();
-    t2.join();
 }
 
