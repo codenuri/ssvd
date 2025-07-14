@@ -25,7 +25,14 @@ void foo(const std::string& name)
 
 int main()
 {
-	foo("A");
+//	foo("A");
+	
+	// foo 를 2개의 스레드가 동시 실행
+	std::thread t1(foo, "A");
+	std::thread t2(foo, "\tB");
+
+	t1.join();
+	t2.join();
 }
 
 
