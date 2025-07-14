@@ -24,7 +24,7 @@ public:
 		if ( t.joinable() )
 			t.join();
 	}
-}
+};
 
 int main()
 {
