@@ -22,6 +22,9 @@ int add(int a, int b)
 void add(int a, int b, int& result )
 {
 	result = a + b;
+	// A. 이 부분에서 연산은 종료!!
+
+	// 마무리 작업이 필요하다....
 }
 
 
@@ -29,6 +32,9 @@ int main()
 {
 	int ret = 0;
 	std::thread t(add, 10, 20, std::ref(ret));
+
+	// 단점 : 아래 코드는 "연산의 결과" 를 대기하는 것이 아닌 스레드의 종료 대기
+	// => 즉, A 부분의 종료가 아닌 add 함수의 종료를 대기
 	t.join();
 
 	std::cout << "결과 : " << ret << std::endl;
