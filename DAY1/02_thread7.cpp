@@ -5,6 +5,18 @@
 void foo() {}
 void goo() {}
 
+void f1(std::thread t) 
+{
+    t.join(); 
+}
+
+std::thread f2()
+{
+    return std::thread(foo);
+}
+
+
+
 int main()
 {
     std::thread t1(&foo);
@@ -32,7 +44,7 @@ int main()
 	// #4. std::thread 객체를 함수 인자로 전달
 //	f1(t2); // error. "std::thread t = t2" 이므로 복사 생성자 필요.
 //	f1(std::move(t2)); // ok.. 단, 이문장 이후에는 t2 사용안됨. 
-	f1(std::thread(&foo)); // ok. 임시객체는 move 되므로!!
+	f1( std::thread(&foo) ); // ok. 임시객체는 move 되므로!!
 
 	// #5. 반환값으로 오는 객체는 rvalue 입니다. 따라서 move 입니다.
 	// => std::thread 를 반환하는 함수를 아래 처럼 받을수 있습니다.
@@ -41,14 +53,9 @@ int main()
 
 	t2.join();
     t4.join();
+
+	t5.join();
+	t6.join();
 }
 
-void f1(std::thread t) 
-{
-    t.join(); 
-}
 
-std::thread f2()
-{
-    return std::thread(foo);
-}
