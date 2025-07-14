@@ -16,6 +16,8 @@ int add(int a, int b)
 
 int main()
 {
+	// 아래 예제는 std::async() 호출의 반환 값을 받았지만
+	// => get() 을 호출 하지 않은 경우. 
   	std::future<int> ft = std::async( std::launch::async, add, 10, 20);
 
     std::cout << "C. continue main " << std::endl; 
