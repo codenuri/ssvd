@@ -69,11 +69,11 @@ public:
 			std::lock_guard<std::mutex> g(m);
 			stop = true;
 		}
-		cv.nofity_all(); // pool 의 모든 스레드를 깨우고
+		cv.notify_all(); // pool 의 모든 스레드를 깨우고
 
 		// 안전하게 종료될때 까지 대기
 		for( auto& t : v)
-			v.join();
+			t.join();
 	}
 };
 
