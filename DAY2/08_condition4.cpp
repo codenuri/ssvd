@@ -5,6 +5,10 @@
 #include <condition_variable>
 using namespace std::literals;
 
+// 핵심 : 아래와 같이 "플래그 변수 + std::condition_variable" 이 전형적인 코딩 관례 입니다.
+// => 아래 코드를 완벽히 이해 하세요
+// => cv.wait(ul, 함수) 의 로직을 정확히 이해해야 합니다.(주석)
+
 std::mutex m;
 int shared_data = -1; 
 
@@ -27,7 +31,8 @@ void consumer()
 
 //	cv.wait(ul, 함수);	// while( !함수()) 
 // 						// 		1. ul.unlock()
-						// 		2. 대기
+						// 		2. 대기 - 이곳에서 중단..(CPU 를 사용하지않은 스레드 대기 목록에서)
+						//				따라서 busy waiting 은 아닙니다.
 						// 		3. ul.lock() 후에 
 						// 4. 다음문장 실행
 
@@ -38,8 +43,6 @@ void consumer()
 
 	std::cout << "consume : " << shared_data << std::endl;
 }	
-
-
 
 
 void producer()
