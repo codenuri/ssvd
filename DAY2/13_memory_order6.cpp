@@ -29,9 +29,10 @@ void foo()
 	y.store(200, std::memory_order_seq_cst); 
 
 	// 위 코드에서 x, y 의 순서 보장이 필요 없다면 아래 처럼 하면
-	// 동시접근, visibility 는 보장하지만 위 보다 빠를수 있습니다.
-	x.store(100, std::memory_order_rel_acq); // 이순간 메모리에 반드시 기록
-	y.store(200, std::memory_order_rel_acq); 
+	// 동시접근만 보장, 
+	// visibility 와 reordering 은 보장 안함
+	x.store(100, std::memory_order_relaxed); 
+	y.store(200, std::memory_order_relaxed); 
 	
 }
 
