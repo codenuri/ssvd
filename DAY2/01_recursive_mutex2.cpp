@@ -6,7 +6,8 @@ using namespace std::literals;
 
 class Machine
 {
-	std::mutex m;
+//	std::mutex m;
+	std::recursive_mutex m;
     int shared_data = 0;
 public:
     void f1()
@@ -19,6 +20,11 @@ public:
     {
 		m.lock();
         shared_data = 100;
+
+		f1();	// 멤버 함수에서 다른 멤버 함수 호출 - 이런 경우는 많습니다.
+				// 그런데, 결국 이때 m.lock() 이 2번 호출되는 결과가 됩니다.
+				// 이런 경우에 사용하는 것이 "std::recursive_mutex" 입니다.
+
 		m.unlock();
     }
 };
