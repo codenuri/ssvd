@@ -91,9 +91,10 @@ int main()
 	pool_add(&foo); 
 	pool_add(&foo); 
 	pool_add(&foo); 
-	pool_add(&foo); 
-	pool_add(&foo); 
-	pool_add(&foo); 
+	pool_add(&foo); // <== 여기 까지 4개가 동시 실행
+
+	pool_add(&foo); // <== 이후는 위 스레드중 먼저 작업을 종료한
+	pool_add(&foo); //     스레드가 실행
 
 	getchar(); // 주스레드 종료 방지!!
 }
@@ -105,6 +106,6 @@ void foo()
 	for (int i = 0; i < 10; i++)
 	{
 		std::cout << "foo : " << std::this_thread::get_id() << std::endl;
-		std::this_thread::sleep_for(400ms);
+		std::this_thread::sleep_for(1s);
 	}
 }
