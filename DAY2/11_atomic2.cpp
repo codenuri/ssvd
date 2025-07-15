@@ -28,6 +28,10 @@ void foo()
 		// lock inc x;
 
 		// 방법 #3. 위 기계어 코드로 구현된 C/C++표준 함수 사용
+		// => <stdatomic.h> 헤더 필요
+		// => C 언어는 C11 부터 지원
+		// => C++ 언어는 C++23 부터 지원( std::atomic<> 이 있어서 초기 지원 안함)
+		// => g++ 소스.cpp -std=c++23 필요
 		atomic_fetch_add(&x, 1);
 
     }
