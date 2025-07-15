@@ -25,7 +25,12 @@ public:
 	{
 		for( int i= 0; i < cnt; i++)
 		{
-			v.push_back( std::thread( pool_thread_main));
+			// pool_thread_main : 멤버 함수 이므로 "객체.pool_thread_main()" 으로 호출해야 하는데
+			//					  아래 처럼 호출하면 안됩니다.
+			// v.push_back( std::thread( pool_thread_main));
+			
+			// 아래 처럼 해야 합니다(어제 2교시 배운 코드)
+			v.push_back( std::thread( &ThreadPool::pool_thread_main, this));
 		}
 	}
 
