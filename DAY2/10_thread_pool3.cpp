@@ -42,7 +42,7 @@ public:
 			{
 				std::unique_lock<std::mutex> ul(m);
 
-				cv.wait( ul, [](){ return !Q.empty() || stop; });					
+				cv.wait( ul, [this](){ return !Q.empty() || stop; });					
 				if ( stop == true && Q.empty() ) 
 					return;				
 				
