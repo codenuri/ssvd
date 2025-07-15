@@ -20,7 +20,12 @@ void transfer(Account& acc1, Account& acc2, int cnt)
 	//					  소멸자에서 unlock()을 지원.
 
 	{
-		std::scoped_lock<std::mutex, std::mutex> g(acc1.m, acc2.m);
+		// C++17 이전(~C++14) : 클래스 템플릿의 타입인자는 생략할수 없습니다. 반드시 아래 처럼 전달해야 합니다.
+		// std::scoped_lock<std::mutex, std::mutex> g(acc1.m, acc2.m);
+
+		// C++17 이후 : 클래스 템플릿의 타입인자는 생략가능 합니다.
+		//				아래 처럼 사용가능. 단, 컴파일러가 C++17 지원해야 합니다 ( -std=c++17)
+		std::scoped_lock g(acc1.m, acc2.m);
 
 		acc1.money -= cnt;
 		acc2.money += cnt;
@@ -39,4 +44,5 @@ int main()
     t1.join();
     t2.join();
 }
-
+// C++17 이후 vector 사용코드
+// std::vector v = {1,2,3};
