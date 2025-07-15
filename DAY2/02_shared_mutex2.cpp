@@ -6,22 +6,9 @@
 #include <string_view>
 using namespace std::literals;
 
-// 핵심
-// 1. Write 하고 있는 동안에 Read 하면 안됩니다.
-// 2. Write 하고 있는 동안에 Write 하면 안됩니다.
-// 3. Read  하고 있는 동안에 Write 하면 안됩니다.
-// 4. Read  하고 있는 동안에 Read  해도 됩니다.
-//		=> 즉, Read 하는 스레드 끼리는 동시 접근 허용해도 됩니다.
-//      => 아래 코드는 Read 스레드의 동시접근을 허용하지 않습니다.
-//      => 해결은 다음소스에서
-
-
-// shared_mutex : 중요한 개념
-
 std::mutex m;
 int share_data = 0;
 
-// 공유 데이타에 계속 쓰는 작업을 하는 함수
 void Writer()
 {
     while (1)
@@ -35,7 +22,7 @@ void Writer()
         std::this_thread::sleep_for(10ms);
     }
 }
-// 공유 자원을 읽기만 하는 함수. 
+
 void Reader(std::string_view name)
 {
     while (1)
@@ -51,8 +38,6 @@ void Reader(std::string_view name)
 
 int main()
 {
-	// 핵심 : 공유자원에 쓰는 스레드는 1개 
-	//		  공유자원을 읽는 스레드는 3개 
     std::thread t1(Writer);
     std::thread t2(Reader, "A");
 	std::thread t3(Reader, "B");
