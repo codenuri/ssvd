@@ -2,9 +2,11 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
-
+#include <stdatomic.h>  // C11 atomic 관련 표준 함수
+						// C++ 은 C++23 부터 지원
 std::mutex m;
-long x = 0;
+//long x = 0;
+atomic_int x = 0;
 
 
 void foo()
@@ -20,11 +22,13 @@ void foo()
 		*/
 
 		// 방법 #2. CPU 가 제공하는 안전하게 1을 증가하는 기계어 명령 사용
-		// 
+		// => "lock-free" 기술
+		// => 동기화를 위해서 OS 레벨의 도구가 아닌 CPU가 제공하는 도구를 사용하는것
+		// => mutex 를 사용하는 것 보다 훨씬 빠르게 동작
 		// lock inc x;
 
 		// 방법 #3. 위 기계어 코드로 구현된 C/C++표준 함수 사용
-		std::fetch_and_add(&x, 1);
+		atomic_fetch_add(&x, 1);
 
     }
 }
