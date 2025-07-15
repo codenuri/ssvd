@@ -14,6 +14,8 @@ std::shared_mutex m;	// lock(), unlock(),
 // m.lock() 하면    : 다른 스레드의 lock(), lock_shared() 모두 대기
 // m.lock_shared() : 다른 스레드의 lock() 은 대기, lock_shared() 는 대기 안함. 
 
+// => 흔히 "slim reader" 라고도 부르는 기술
+
 int share_data = 0;
 
 void Writer()
