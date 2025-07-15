@@ -29,7 +29,9 @@ int main()
 	// => OS 의 동기화 도구가 아닌 CPU 명령만으로 수행 가능한가?
 	std::cout << a1.is_lock_free() << std::endl;
 	std::cout << a2.is_lock_free() << std::endl;
-	std::cout << a3.is_lock_free() << std::endl; // g++ 에러 : 사용하지 말라는 것
+	std::cout << a3.is_lock_free() << std::endl; // g++ 기본은 에러 : 사용하지 말라는 것
+											     // g++ -std=c++20 -latomic 로 컴파일시 ok
+												 
 												 // visual studio : false, 사용가능하지만 lock-free 아님
 
 }

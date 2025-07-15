@@ -13,6 +13,9 @@ struct Point
     Point(const Point&) = default; // 이 코드는 ok
 };
 
+// 64bit 보다 큰 타입 : lock-free 지원 안됨
+// 복사생성자가 있는 타입 : std::atomic<> 으로 사용할수 없음. 
+
 std::atomic<Point> pt;
 
 int main()
