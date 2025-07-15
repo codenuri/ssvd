@@ -7,6 +7,7 @@
 #include <chrono>
 #include <future>
 #include <functional>
+#include <memory> // 스마트 포인터
 
 using namespace std::literals;
 
