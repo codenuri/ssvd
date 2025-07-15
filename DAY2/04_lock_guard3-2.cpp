@@ -15,7 +15,6 @@ class adopt_lock_t {};
 // #2. empty class 의 객체를 한개만 전역적으로 생성합니다.
 adopt_lock_t adopt_lock;
 
-
 // #3. 생성자를 2개 만듭니다.
 template<typename T>
 class lock_guard 
@@ -30,12 +29,17 @@ public:
 
 void goo()
 {
+	// lock 은 다른 방법(try_lock) 으로 했는데,
+	// unlock 직접 하면 안전하지 않다.
+	// unlock 만 lock_guard로 하고 싶다.
+	
 	if ( m.try_lock() )
 	{
-		lock_guard<std::mutex> g(m); 			 // 생성자에서 lock 해달라는 의미
+//		lock_guard<std::mutex> g(m); 			 // 생성자에서 lock 해달라는 의미
 		lock_guard<std::mutex> g(m, adopt_lock); // 생성자에서 lock 하지 말라는 의미
 												 // => 이미 lock 이 되어 있다(adopt lock)
 
+//		m.unlock(); // 나쁜 코드												 	
 	}
 }
 
