@@ -9,12 +9,18 @@ const int sz = 10'000'000;
 
 // 방법 #1. 중간에 padding 변수를 넣으세요
 
-
+/*
 long long n1 = 0;
-
 char padding[64]; // 64 byte
-
 long long n2 = 0;
+*/
+
+// 방법 #2. 변수의 시작 주소를 64 byte 단위로 만드는 문법 사용
+// => C++11 부터 지원
+
+alignas(64) long long n1 = 0;
+alignas(64) long long n2 = 0;
+
 
 void f1()
 {
