@@ -60,7 +60,7 @@ public:
 		// 이제 Q에는 함수주소 자체가 아니라
 		// package_task 를 만들고, packaged_task 객체를 실행하는 람다 표현식이 저장되어야 합니다.
 		// => 동적 메모리에 할당 하는데, 스마트 포인터로 관리
-		auto task = std::make_shared<std::package_task<int()>>(std::bind(f, arg1, arg2));
+		auto task = std::make_shared<std::packaged_task<int()>>(std::bind(f, arg1, arg2));
 
 		// 실행되지 않았지만 결과를 미리 꺼내서, 반환해 줄수 있습니다.
 		std::future<int> ft = task->get_future(); 
@@ -96,7 +96,9 @@ int main()
 {
 	ThreadPool tp(4);
 	
-	std::future<int> ft = tp.pool_add(&foo, 1, 2); 
+	std::future<int> ft = tp.pool_add(&foo, 1, 2); // 결국 이코드는
+					//    std::async(&foo, 1, 2);  // 와 거의 동일합니다.	
+	
 
 	int ret = ft.get();
 
