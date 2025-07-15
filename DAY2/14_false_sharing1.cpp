@@ -48,9 +48,13 @@ int main()
 {
 	// chronometry(함수이름) : 함수가 실행되는 데 걸리는 시간 측정. chronometry.h 에 소스 있습니다
 	// 아래 결과는 "싱글스레드 버전"이 훨씬 빠릅니다.( 환경에 따라 다를수 있습니다. )
+	
 	// => 왜 이럴까요 ?
 	// => 캐쉬의 가짜 공유 현상(false sharing) 문제 입니다.
 	// => 해결은 다음 소스
-	chronometry(single_thread);
+
+	// 아래 코드 실행시, 순서도 바꿔가면서 확인해 보세요
+//	chronometry(single_thread);
 	chronometry(multi__thread);
+	chronometry(single_thread);
 }
