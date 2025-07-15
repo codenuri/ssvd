@@ -2,6 +2,7 @@
 #include <thread>
 #include <mutex>
 #include <chrono>
+#include <condition_variable>
 using namespace std::literals;
 
 std::mutex m;
@@ -27,7 +28,7 @@ void producer()
     shared_data = 100;
     std::cout << "produce : " << shared_data << std::endl;
 
-	// 생산자는 생산후에 대기중이 스레드를 깨우기 위해 신호를 전달
+	// #3. 생산자는 생산후에 대기중이 스레드를 깨우기 위해 신호를 전달
 	cv.notify_one(); // cv.wait()로 대기중인 스레드중 한개만 깨우기
 					 // 모두 깨우려면 cv.nofity_all()
 }
