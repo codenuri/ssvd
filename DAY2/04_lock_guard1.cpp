@@ -11,6 +11,9 @@ std::mutex m;
 
 // 해결책 
 // => 자원의 할당과 해지는 "생성자/소멸자" 를 사용해야 한다.
+// => "RAII" - Resource Acquision Is Inintialization
+//             자원 할당은 (자원관리 객체)가 초기화 될때 이다.
+// 테플릿으로 만든 이유는 "6개 뮤텍스"를 모두 지원하려고.. 
 template<typename T>
 class lock_guard 
 {
@@ -19,13 +22,20 @@ public:
 	lock_guard(T& m) : m(m) { m.lock(); } // 생성자에서 lock
 	~lock_guard() { m.unlock(); }         // 소멸자에서 unlock
 }
+
 // 좋은 코드
 void goo()
 {
-    std::lock_guard<std::mutex> g(m);
+    lock_guard<std::mutex> g(m);	// 1. g 의 생성자에서 "m.lock()" 수행
+									// 2. g 의 소멸자에서 "m.unlock()" 수행
+									// 3. 
+
 	std::cout << "using shared data" << std::endl;
 
-	throw std::exception();
+//	throw std::exception(); // 이순간 catch 로 이동
+							// => 지역변수는 안전하게 파괴 됩니다.(소멸자 호출)
+							// => 따라서 "m.unlock()" 을 하고, catch 로 이동
+//	if( ...) return;		// 이런 코드가 있어도 "m.unlock()" 은 보장						
     
 }
 
