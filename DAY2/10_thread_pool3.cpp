@@ -62,6 +62,19 @@ public:
 		}
 		cv.notify_one(); 
 	}
+
+	~ThreadPool()
+	{
+		{
+			std::lock_guard<std::mutex> g(m);
+			stop = true;
+		}
+		cv.nofity_all(); // pool 의 모든 스레드를 깨우고
+
+		// 안전하게 종료될때 까지 대기
+		for( auto& t : v)
+			v.join();
+	}
 };
 
 int main()
@@ -74,10 +87,9 @@ int main()
 	tp.pool_add(&foo);
 
 	tp.pool_add(&foo);
-	tp.pool_add(&foo);
-
-	getchar(); 
-}
+	tp.pool_add(&foo);	
+}	// <== tp 파괴. 소멸자 호출
+	// <== pool 안에서 수행중인 스레드를 종료시키면 됩니다.
 
 
 
