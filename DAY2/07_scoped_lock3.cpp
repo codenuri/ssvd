@@ -46,3 +46,10 @@ int main()
 }
 // C++17 이후 vector 사용코드
 // std::vector v = {1,2,3};
+
+
+// C++ 표준에서 lock/unlock 을 관리하는 도구는 4개 입니다.
+// 1. std::lock_guard  : 가장 가볍고, 널리 사용되는 기본 도구
+// 2. std::unique_lock : 가장 무겁고, 기능이 아주 많다(멤버 함수가 많음)
+// 3. std::shared_lock : shared mutex 전용
+// 4. std::scoped_lock : 여러개의 mutex 를 동시에 lock/unlock 할때
