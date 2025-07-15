@@ -15,7 +15,9 @@ int foo(int, int);
 
 class ThreadPool
 {
-	using TASK = void(*)(); 
+//	using TASK = void(*)(); 
+	using TASK = std::function<void()>;
+
 	std::queue<TASK> Q; 
 
 	std::mutex m;		
@@ -52,14 +54,30 @@ public:
 		}
 	}
 
-	void pool_add(TASK task)
+	std::future<int> pool_add(int(*f)(int, int), int arg1, int arg2 )
 	{
+		// 이제 Q에는 함수주소 자체가 아니라
+		// package_task 를 만들고, packaged_task 객체를 실행하는 람다 표현식이 저장되어야 합니다.
+		// => 동적 메모리에 할당 하는데, 스마트 포인터로 관리
+		auto task = std::make_shared<std::package_task<int()>>(std::bind(f, arg1, arg2));
+
+		// 실행되지 않았지만 결과를 미리 꺼내서, 반환해 줄수 있습니다.
+		std::future<int> ft = task->get_future(); 
+
+		// task 를 실행하는 람다 표현식
+		auto work = [task](){ (*task)();};
+
 		{
 			std::lock_guard<std::mutex> g(m);
-			Q.push( task );
+			Q.push( work );
 		}
 		cv.notify_one(); 
+
+		return ft;
 	}
+
+
+
 
 	~ThreadPool()
 	{
@@ -77,8 +95,14 @@ int main()
 {
 	ThreadPool tp(4);
 	
-	tp.pool_add(&foo, 1, 2); 
+	std::future<int> ft = tp.pool_add(&foo, 1, 2); 
+
+	int ret = ft.get();
+
+	std::cout << "결과 : " << ret << std::endl;
 }	
+
+
 
 int foo(int a, int b)
 {
