@@ -46,7 +46,7 @@ void Reader(std::string_view name)
     while (1)
     {
 		{
-			
+
 			std::shared_lock<std::shared_mutex> g(m); 
 			cv.wait(g, [](){ return data_ready;} );
 
@@ -69,5 +69,17 @@ int main()
 	t4.join();
 }
 
+// std::condition_variable     : std::unique_lock 만 가능합니다.
+// std::condition_variable_any : std::unique_lock, std::shared_lock 도 가능합니다.
+//					
 
+// std::condition_variable_any 
+// => std::condition_variable 으로 할수 있는 모든 일을 할수 있습니다.
+// => 하지만 "any" 버전은 약간의 성능저하가 있습니다.
 
+// std::condition_variable  : OS 시스템콜과 거의 1:1로 대응, 아주 빠르게 동작
+// std::condition_variable_any : 추상화 계층이 있습니다.(몇번을 거쳐서 OS 시스템콜 사용)
+
+// 권장 
+// 1. std::condition_variable 사용하세요
+// 2. shared_lock 을 사용할때만 std::condition_variable_any 사용하세요
