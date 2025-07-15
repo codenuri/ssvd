@@ -6,6 +6,14 @@
 #include <string_view>
 using namespace std::literals;
 
+// 핵심
+// 1. Write 하고 있는 동안에 Read 하면 안됩니다.
+// 2. Write 하고 있는 동안에 Write 하면 안됩니다.
+// 3. Read  하고 있는 동안에 Write 하면 안됩니다.
+// 4. Read  하고 있는 동안에 Read  해도 됩니다.
+//		=> 즉, Read 하는 스레드 끼리는 동시 접근 허용해도 됩니다.
+//      => 아래 코드는 Read 스레드의 동시접근을 허용하지 않습니다.
+
 // shared_mutex : 중요한 개념
 
 std::mutex m;
