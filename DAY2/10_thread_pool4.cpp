@@ -5,6 +5,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <chrono>
+#include <future>
 using namespace std::literals;
 
 int add(int a, int b)
@@ -33,7 +34,7 @@ int main()
 
 //	task2(1, 2);	// 주스레드가실행
 
-	std::thread t1(task2, 1, 2); // 새로운 스레드 실행
+	std::thread t1(task1, 1, 2); // 새로운 스레드 실행
 
 	int ret3 = ft2.get();
 
