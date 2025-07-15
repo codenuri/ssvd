@@ -20,10 +20,18 @@ void consumer()
 
 	// #2. cv.wait(ul, 함수) 가 일반 적인 코딩 관례 입니다.
 	
-//	cv.wait(ul);	
-//	cv.wait(ul, 함수);	
+//	cv.wait(ul);		// 1. ul.unlock()
+						// 2. 대기
+						// 3. ul.lock() 후에 
+						// 4. 다음문장 실행
+						
+//	cv.wait(ul, 함수);	// while( !함수()) 
+// 						// 		1. ul.unlock()
+						// 		2. 대기
+						// 		3. ul.lock() 후에 
+						// 4. 다음문장 실행
 
-	cv.wait(ul, [](){ return !data_ready;});	
+	cv.wait(ul, [](){ return !data_ready;} );	
 
 	std::cout << "consume : " << shared_data << std::endl;
 }	
