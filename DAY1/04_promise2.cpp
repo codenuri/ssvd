@@ -6,6 +6,12 @@ using namespace std::literals;
 
 // promise & future 모델
 // => 스레드로 수행중인 함수의 결과값을 얻기 위한 C++ 표준 방법
+// => 1회 사용만 할수 있습니다.
+//    pro.set_value() 는 한번만 호출 가능
+
+// 만일 여러번 해야 한다면
+// => 저수준의 동기화 기술(뮤텍스, 조건변수) 등을 사용해서 직접 구현
+
 
 // #1. 스레드 함수가 인자로 std::promise 를 참조로 받아야 합니다. 
 void add(int a, int b, std::promise<int>& pro)
