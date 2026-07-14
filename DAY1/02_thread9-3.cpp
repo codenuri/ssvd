@@ -7,14 +7,18 @@
 #include "chronometry.h"
 
 //------------------------------------
-// 전역 vector 를 초기화 하는 코드
-constexpr std::size_t sz = 1'000'000;
+// 복습 하실때..
+// 아래 2개 변수의 값을 변경하면서 성능을 확인해 보세요
+// => 데이터 양이 적다면 "단일 스레드" 가 좋습니다
+// => 데이터 양이 많다면 "멀티 스레드" 가 좋습니다
+//    단, 스레드 갯수도 충분히 고려되어야 합니다.
+constexpr std::size_t sz = 10'000'000;
 
 // 스레드 수를 결정하기 위한 목표 작업 단위
 // 1. 요소 갯수 min_cnt_per_thread 이하라면 스레드 생성안함
 // 2. 이상이라면 "요소갯수 / min_cnt_per_thread" 의 스레드갯수가 후보
 // 3. 최종 개수는 hw 고려
-unsigned long min_cnt_per_thread = 1'000;
+unsigned long min_cnt_per_thread = 1000'000;
 
 
 std::vector<int> v;
