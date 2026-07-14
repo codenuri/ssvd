@@ -11,6 +11,8 @@ using namespace std::literals;
 int add(int a, int b)
 {
 	std::this_thread::sleep_for(1s);
+
+	std::cout << "finish add: " << std::this_thread::get_id() << std::endl;
 	return a + b;	
 }
 
@@ -23,6 +25,9 @@ int main()
 	std::future<int> ft = std::async(add, 10, 20); // 내부적으로 스레드를 만들어서
 													// add(10,20) 수행하고
 													// 미래 결과를 담은 future 반환
+	
+	std::cout << "continue main: " << std::this_thread::get_id() << std::endl;
+	
 	// 이제 다른 작업을 하다고 결과가 필요하면 ft.get()으로 획득
 	// => 결과가 없으면 대기
 	int ret = ft.get();	
