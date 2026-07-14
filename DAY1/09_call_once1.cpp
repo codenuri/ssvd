@@ -26,6 +26,10 @@ void foo()
 }
 int main()
 {
+	// 아래 처럼 3개의 스레드가 foo() 를 실행하면
+	// init()도 3번 호출됩니다.
+	// => init()은 한번만 호출되게 할수 없을까요 ?
+	// => std::call_once 기술 => 해결책은 다음 소스
     std::jthread t1(foo);
 	std::jthread t2(foo);
 	std::jthread t3(foo);
