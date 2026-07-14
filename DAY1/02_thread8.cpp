@@ -26,8 +26,23 @@ int main()
 
 	for( int i = 0; i < 10; i++ )
 	{
-		std::thread t(do_work, 3);
+		// #1. 스레드 객체를 생성후 move 로 push
+//		std::thread t(do_work, 3);
+//		v.push_back(t); // error. t 를 복사한 복사본을 보관 하는 코드, std::thread 는 복사 안됨
+//		v.push_back(std::move(t)); // ok. 이동은 가능
 
-		v.push_back(t); 
+		// #2. temporary 형태로 push
+//		v.push_back( std::thread(do_work, 3) ); // ok
+
+		// #3. emplace_back 사용 - 가장 널리 사용. 권장, 강의에서도 이렇게
+		// => std::vector 사용시 emplace_back() 은 너무나 중요.. 반드시 학습해 두세요
+		// => push_back( 인자가 객체 )
+		//    emplace_back( 객체를 만들기 위한 생성자만 전달)
+//		v.push_back( std::thread(do_work, 3) ); // std::thread 객체를 전달
+		v.emplace_back( do_work, 3 ); // std::thread 생성에 필요한 인자만 전달
 	}
+
+	// join 필요
+	for( auto& t : v) // "std::thread& t : v" 
+		t.join();
 }
