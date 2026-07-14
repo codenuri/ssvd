@@ -66,3 +66,13 @@ int main()
 
 // 다양한 스레드 기술을 사용하고 스레드간 통신등도 해야 한다
 // => std::thread, std::jthread 를 직접 사용
+
+
+// promise/future, std::packaged_task 기술
+// => 스레드를 생성하는 기술 아님
+// => std::thread, std::jthread 로 스레드 생성
+
+// 스레드 생성기술은 C++에서 단 2가지 스타일만 있습니다.
+// 1. std::thread, std::jthread
+// 2. std::async()
+// 3. 단, C++26에서 std::execution 이라는 새로운 기술 등장
