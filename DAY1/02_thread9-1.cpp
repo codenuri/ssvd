@@ -47,12 +47,21 @@ void parallel_sum(T first, T last, unsigned long long& result)
 	{
 		T end = std::next( start, block_size);
 
+		// sum 자체가 단일 스레드로 구간의 합을 구하므로
+		// sum 사용, 단, template 이므로 &sum 가 아닌 &sum<T>
 		v.emplace_back( &sum<T>, start, end, std::ref(result[i]));		
 
 		start = end;
 	}
+	// 마지막 구간은 주스레드가 수행
+	sum(start, last, result[cnt_threads-1]);
 
-	
+	// 모든 스레드 종료 대기
+	for( auto& t: v)
+		t.join();
+
+	// 각각의 결과를 합
+	result = std::accumulate( result.begin(), result.end(), 0);
 }
 
 int main()
@@ -60,5 +69,7 @@ int main()
 	init();
 
     unsigned long long s = 0;
-    parallel_sum(v.begin(), v.end(), s);	
+    parallel_sum(v.begin(), v.end(), s);
+	
+	std::cout << s << std::endl;
 }
