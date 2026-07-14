@@ -6,7 +6,8 @@ using namespace std::literals;
 
 void add(std::promise<int>& p, int a, int b)
 {
-    std::this_thread::sleep_for(1s); // 복잡한 연산이라서 1초 정도 소요
+//  std::this_thread::sleep_for(1s); // 복잡한 연산이라서 1초 정도 소요
+  	std::this_thread::sleep_for(3s); 
 
     p.set_value(a + b);
 }
@@ -30,6 +31,8 @@ int main()
 		// 스레드가 p.set_value() 한 경우. 데이터는 준비되었음.. 
 		// 아래 코드는 절대 대기 안함
 		int n = ft.get();
+
+		std::cout << "result: " << n << std::endl;
 	}
 	else if ( ret == std::future_status::timeout )
 	{
@@ -45,5 +48,13 @@ int main()
     t.join();
 }
 
+// 결론
+// 내가 만드는 코드에서 스레드에서 값을 꺼내야 하는데
+// "promise/future" 의 역활이면 충분하다..
+// => 다른 복잡한 동기화 기술을 사용할 필요 없습니다.
+// => promise/future 사용하세요
+// => 가볍고, 빠르고, 안전합니다... 최우선 고려 하세요
 
+// 여러번 값을 꺼내는 등.. 다른 기술이 필요하다!!
+// => 다른 동기화 기법을 배워서 사용해야 합니다
 
