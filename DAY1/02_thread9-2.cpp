@@ -11,7 +11,7 @@ std::vector<int> v;
 
 void init()
 {
-    for (int i = 0; i <= sz; ++i)
+    for (int i = 1; i <= sz; ++i)
     {
         v.push_back(i);
     }	
@@ -74,7 +74,11 @@ void parallel_sum(T first, T last, unsigned long long& result)
 	for( auto& t: v)
 		t.join();
 
-	result = std::accumulate( result_vector.begin(), result_vector.end(), 0);
+//	result = std::accumulate( result_vector.begin(), result_vector.end(), 0);
+			// 0 : int 타입 이므로 accumulate 가 내부적으로 합을 보관하는 변수로 int 변수 사용
+			//	   오버 플로우 발생
+	result = std::accumulate( result_vector.begin(), result_vector.end(), 0ULL);		
+															// (unsigned long long)0
 }
 
 int main()
@@ -86,3 +90,15 @@ int main()
 	
 	std::cout << s << std::endl;
 }
+
+/*
+// C++ 표준 accumulate() 의 원리
+template<typename ITER, typename T>
+R accumulate(ITER first, ITER last, T init)
+{
+	// 결과값 담을 변수의 타입은 초기값의 타입과 동일(T)
+	T s = init;
+
+	// first ~ last 의 모든 요소의 합을 s 에 담는다
+}
+*/
