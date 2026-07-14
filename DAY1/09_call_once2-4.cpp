@@ -50,10 +50,15 @@ int main()
 }
 
 
-
+/*
 // 위 기술을 사용하면 안되는 이유
 static Singleton* getInstance()
 {
+	// 아래 마지막 주석을 생각해 보면
+	// 생성된 객체의 생성자 호출이 종료되지 않아도 sinstance != nullptr 입니다.
+	// 따라서, 나중에 들어온 스레드가 반환하는 객체는 "생성자 호출이 종료되지 않을수"도 있습니다.
+	// => 해결책 : "reordering" 을 막아야 합니다.
+	// => 3일차에 배우게 됩니다.(std::memory_order)
 	if ( sinstance == nullptr )
 	{
 		mtx.lock();
@@ -65,7 +70,17 @@ static Singleton* getInstance()
 			// 위 A 는 컴파일러에 의해 아래 3줄로 변경됩니다.
 			// 1. Singleton 크기 메모리 할당      : temp = malloc(sizeof(Singleton));
 			// 2. 할당된 메모리(객체)의 생성자 호출 : Singleton::Singleton();
-			// 3. 메모리 주소를 sinstance에 대입   : sintance = temp;
+			// 3. 메모리 주소를 sinstance에 대입   : sinstance = temp;
+
+			// 그런데, 컴파일러가 최적화를 하면서 temp 변수를 제거하게 됩니다.
+			// => 2, 3 의 순서를 변경(reordering 이라는 개념) 하면 temp 가 사라집니다.
+			// 1. Singleton 크기 메모리 할당      : temp = malloc(sizeof(Singleton));
+			// 3. 메모리 주소를 sinstance에 대입   : sinstance = temp;
+			// 2. 할당된 메모리(객체)의 생성자 호출 : Singleton::Singleton();
+
+			// 결국 아래 2줄이 됩니다
+			// 1. Singleton 크기 메모리 할당      : sinstance = malloc(sizeof(Singleton));			
+			// 2. 할당된 메모리(객체)의 생성자 호출 : Singleton::Singleton();			
 
 		}
 
@@ -73,3 +88,4 @@ static Singleton* getInstance()
 	}
 	return sinstance;
 }
+*/
