@@ -46,9 +46,10 @@ void parallel_sum(T first, T last, unsigned long long& result)
 	// 실제 스레드 갯수는 hw 적인 갯수와 최소 데이터에 의한 갯수중 작은 것
 	unsigned long long cnt_threads = std::min(hw_cnt_thread,  sw_thread);
 
+	// 한글 출력 깨지면 : 터미널에서 "chcp 65001" 한번 실행하세요
 	std::cout << "hw 스레드 갯수 : " << hw_cnt_thread << std::endl;
 	std::cout << "요소갯수에 의한  스레드 갯수 : " << sw_thread << std::endl;
-	std::cout << "최종  스레드 갯수 : " << sw_thread << std::endl;
+	std::cout << "최종  스레드 갯수 : " << cnt_threads << std::endl;
 
 
 
