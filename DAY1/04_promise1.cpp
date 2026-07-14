@@ -24,10 +24,11 @@ void add(int a, int b, int& result)
 int main()
 {
 	int result = 0;
-	std::jthread t(add, 10, 20, std::ref(result));
+	std::thread t(add, 10, 20, std::ref(result));
+
+	t.join();
 
 	std::cout << result << std::endl;
-
 }
 
 
