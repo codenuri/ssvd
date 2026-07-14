@@ -31,7 +31,7 @@ int main()
 	std::promise<int> pro;
 	std::future<int> ft = pro.get_future();
 
-	std::thread t( work2, std::ref(v2), std::ref(pro)  );
+	std::jthread t( work2, std::ref(v2), std::ref(pro)  );
 
 
 	// 작업 #2. v2 의 모든 요소 출력
