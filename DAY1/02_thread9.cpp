@@ -11,13 +11,14 @@ std::vector<int> v;
 
 void init()
 {
-    for (int i = 0; i < sz; ++i)
+    for (int i = 0; i <= sz; ++i)
     {
         v.push_back(i);
     }	
 }
 //-------------------------------------------
 // 구간의 합을 구하는 함수.
+// => 반복자를 받아서 모든 요소의 합을 구한후, 3번째 인자로 전달된 참조에 결과를 담아 주는 함수
 template<typename IT, typename RT> 
 void sum(IT first, IT last, RT& result)
 {
@@ -28,7 +29,8 @@ int main()
 {
 	init();
 
-    int s = 0;
-    sum(v.begin(), v.end(), s);
+    unsigned long long s = 0;
+    sum(v.begin(), v.end(), s);	// v의 모든 합을 s 에 담는 코드
+
     std::cout << s << std::endl;
 }
