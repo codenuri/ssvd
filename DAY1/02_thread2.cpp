@@ -20,9 +20,9 @@ int main()
 	// 핵심reference 와 move 사용
 	// std::ref(n) : n 을 참조로 전달해 달라는 의미
 	// => 스레드간 참조 전달은 안전하지 않지만 필요한 경우들이 있습니다.
-	int n = 0;
-//	std::thread t3(f3, 1, std::ref(n), s);				// 3번째 인자를 복사(copy)
-	std::thread t3(f3, 1, std::ref(n), std::move(s));	// 3번째 인자를 이동(move)으로
+	int n1 = 0;
+//	std::thread t3(f3, 1, std::ref(n1), s);				// 3번째 인자를 복사(copy)
+	std::thread t3(f3, 1, std::ref(n1), std::move(s));	// 3번째 인자를 이동(move)으로
 
 	t1.join();
 	t2.join();
