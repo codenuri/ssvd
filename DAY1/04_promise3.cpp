@@ -4,6 +4,11 @@
 #include <chrono>
 using namespace std::literals;
 
+// promise
+// => 스레드가 수행한 함수에서 "값 또는 예외" 를 주스레드에 전달 하는 도구
+// => 1회만 사용가능
+
+
 // #1. promise 인자의 위치는 자유롭게.
 void divide(std::promise<int>& p, int a, int b)
 {
@@ -32,8 +37,11 @@ void divide(std::promise<int>& p, int a, int b)
 		// => 현재 스레드에서 발생한 모든 종류의 예외를
 		//    promise 를 통해서 주스레드에 전달
 		// std::current_exception() : 현재 발생된 예외 반환
-		p.set_exception( std::current_exception() );
+		// p.set_exception( std::current_exception() );	// 주스레드에 예외 전달하고 계속 실행
+		//
+		p.set_exception_at_thread_exit( std::current_exception() ); // 스레드 종료시 예외 전달
 	}
+	// 다양한 자원을 정리하는 코드들...
 }
 
 int main()
@@ -41,11 +49,12 @@ int main()
     std::promise<int> pm;
     std::future<int>  ft = pm.get_future();
 
-    std::thread t(divide, std::ref(pm), 10, 2);
+    std::thread t(divide, std::ref(pm), 10, 0);
 
 	try 
 	{
-    	int ret = ft.get();
+    	int ret = ft.get(); // 스레드가 p.set_value() 했다면 결과 나오고
+							// p.set_exception() 했다면 예외 발생
 	}
 	catch(std::exception& e)
 	{
