@@ -1,6 +1,8 @@
 #include <iostream>
 #include <thread>
 #include <future>
+#include <chrono>
+using namespace std::literals;
 
 // 스레드를 고려하지 않고 만든 일반 함수를 스레드로 수행하고 결과를 얻는 방법
 // 방법 #1. std::packaged_task
