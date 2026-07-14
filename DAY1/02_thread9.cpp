@@ -19,8 +19,8 @@ void init()
 //-------------------------------------------
 // 구간의 합을 구하는 함수.
 // => 반복자를 받아서 모든 요소의 합을 구한후, 3번째 인자로 전달된 참조에 결과를 담아 주는 함수
-template<typename IT, typename RT> 
-void sum(IT first, IT last, RT& result)
+template<typename T> 
+void sum(T first, T last, unsigned long long& result)
 {
     result = std::accumulate(first, last, result);
 }
@@ -31,6 +31,12 @@ int main()
 
     unsigned long long s = 0;
     sum(v.begin(), v.end(), s);	// v의 모든 합을 s 에 담는 코드
-
     std::cout << s << std::endl;
+
+	// [참고] sum 함수의 주소 구하기
+	auto p1 = &sum; // error. 일반 함수라면 문제 없지만
+					//         template 이므로 이렇게만 표기하면 T를 결정 못함
+
+	auto p2 = &sum<std::vector<int>::iterator>; // ok.
+												// 이렇게 타입도 전달해야 합니다.				
 }
