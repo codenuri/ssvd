@@ -23,7 +23,6 @@ void divide(std::promise<int>& p, int a, int b)
 
 		// 그외 작업중에도 예외 나올수 있습니다
 
-
 		// 예외 없이 안전하게 결과가 나왔다면 set_value()로 전달
     	p.set_value(a / b);
 	}
@@ -37,7 +36,6 @@ void divide(std::promise<int>& p, int a, int b)
 	}
 }
 
-
 int main()
 {
     std::promise<int> pm;
@@ -45,7 +43,14 @@ int main()
 
     std::thread t(divide, std::ref(pm), 10, 2);
 
-    int ret = ft.get();
+	try 
+	{
+    	int ret = ft.get();
+	}
+	catch(std::exception& e)
+	{
+		std::cout << "스레드 수행중 예외 발생: " << e.what() << std::endl;
+	}
 
     t.join();
 }
