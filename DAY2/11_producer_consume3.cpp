@@ -38,7 +38,7 @@ void consume()
 		{
 			std::unique_lock<std::mutex> ul(m);
 
-			cv.wait(ul, [](){ !Q.empty(); });
+			cv.wait(ul, [](){ return !Q.empty(); });
 
 			int element = Q.front();
 			Q.pop();
