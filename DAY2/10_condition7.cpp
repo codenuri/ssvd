@@ -16,7 +16,16 @@ std::shared_mutex m;
 int share_data = 0;
 
 // 생산후에만 소비 가능하도록 condition variable 도입
-std::condition_variable cv;
+// std::condition_variable cv;	// std::unique_lock 만 사용가능
+								// std::shared_lock(shared_mutex) 기능 사용못함
+
+std::condition_variable_any cv; // 다양한 lock management 와 같이 사용가능(any 의 의미)
+								// std::shared_lock 과 연동 가능.
+								// 단, 약간의 오버헤드 있다
+// 일반적인 관례 
+// shared_mutex 기능 필요 : std::condition_variable_any
+// 그외                   : std::condition_variable							
+
 bool ready_data = false;
 
 void Writer()
@@ -41,8 +50,8 @@ void Reader(std::string_view name)
     while (1)
     {
 		{
-//			std::shared_lock<std::shared_mutex> g(m);
-			std::unique_lock<std::shared_mutex> g(m);
+			// std::condition_variable_any 이므로 shared_lock 가능
+			std::shared_lock<std::shared_mutex> g(m);
 			cv.wait(g, []() { return ready_data; });
 
 			std::cout << "Reader(" << name << ") : " << share_data << std::endl;
