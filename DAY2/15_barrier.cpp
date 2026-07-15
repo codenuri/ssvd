@@ -13,7 +13,8 @@ void foo(std::string name)
 	std::cout << "finish work : " << name << std::endl;
 
 
-	sync_point.arrive_and_wait(); 
+	sync_point.arrive_and_wait(); // --count 후 count == 0 대기
+								  // count == 0 되면 count = 3 후에 실행시작
 	std::cout << "have dinner : " << name << std::endl;
 
 
