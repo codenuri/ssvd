@@ -26,7 +26,7 @@ void consumer()
 
 	std::unique_lock<std::mutex> ul(m); 
 
-	if ( ! data_ready )	// 데이터가 준비 되면 대기할 필요 없다
+	if ( ! ready_data )	// 데이터가 준비 되면 대기할 필요 없다
 	{
 		cv.wait(ul);	
 	}
@@ -41,8 +41,8 @@ void producer()
     shared_data = 100;
     std::cout << "produce : " << shared_data << std::endl;
 
-	data_ready = true;
-	
+	ready_data = true;
+
 	cv.notify_one(); 
 }
 
