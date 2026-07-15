@@ -17,7 +17,8 @@ void foo()
 */
 void foo()
 {
-	if( m.try_lock()) 
+//	m.lock();			// 획득 실패시 대기
+	if( m.try_lock()) 	// 획득 실패시 대기 없이 false 반환
 	{
     	share_data = 100;
 		m.unlock();
