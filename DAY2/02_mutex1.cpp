@@ -9,6 +9,8 @@ void delay() { std::this_thread::sleep_for(20ms); } // 시간 지연 함수
 
 
 // mutex : 자원의 독점을 위해서 사용
+// => 직렬화(serialization)
+// => 상호배제(mutual exclusion)
 
 std::mutex m;
 
