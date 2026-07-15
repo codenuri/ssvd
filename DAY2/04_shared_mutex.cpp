@@ -6,6 +6,16 @@
 #include <string_view>
 using namespace std::literals;
 
+// 핵심
+
+// 1. Write 하는 동안 다른 스레드가 Read  하면 안됩니다.
+// 2. Write 하는 동안 다른 스레드가 Write 하면 안됩니다.
+// 3. Read  하는 동안 다른 스레드가 Write 하면 안됩니다.
+// 4. Read  하는 동안 다른 스레드가 Read  해도 됩니다. <==== 이 부분이 핵심
+
+// 그런데, 아래 코드는 Read 하는 동안에도 다른 스레드는 Read 못하고 대기!!!
+// => shared_mutex 로 해결
+
 std::mutex m;
 int share_data = 0;
 
@@ -44,8 +54,8 @@ int main()
 	// Reader thread 는 3개!
     std::jthread t1(Writer);
     std::jthread t2(Reader, "A");
-	std::jthread t2(Reader, "B");
-	std::jthread t2(Reader, "C");
+	std::jthread t3(Reader, "B");
+	std::jthread t4(Reader, "C");
 }
 
 
