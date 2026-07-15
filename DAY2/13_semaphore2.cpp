@@ -11,11 +11,16 @@ using namespace std::literals;
 //		     C++20 부터 사용가능
 
 // #1. 전역변수로 생성
+// 템플릿 인자 : 최대 카운트 - 3
+// 생성자 인자 : 현재 카운트 - 3
+// 규칙 : 최대 카운트 >= 현재 카운트 >= 0
+
 std::counting_semaphore<3> sem(3);	
+
 
 void Download(std::string name)
 {	
-    sem.acquire(); // if ( --sem.count == 0 ) wait()
+    sem.acquire(); // if ( --sem.current_count == 0 ) wait()
 
     for (int i = 0; i < 100; i++)
     {
@@ -24,7 +29,8 @@ void Download(std::string name)
     }
     std::cout << "\n finish " << name << std::endl;
     
-	sem.release();
+	sem.release();	// ++sem.current_count 
+					// 단 최대 값 보다는 커질수 없다.
 }
 
 int main()
