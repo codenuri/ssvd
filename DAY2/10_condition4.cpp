@@ -24,6 +24,9 @@ void consumer()
 
 	std::unique_lock<std::mutex> ul(m); 
 
+	// 데이터가 있는지 먼저 조사 - 이 부분을 위해서 위처럼 lock 을 먼저 하게 만든것 
+	// => 이후 신호가 오면 계속 반복해서 조사한후, 실제 데이터가 있을때 lock 을 하고 통과!!
+	// => 코드 흐름은 "ready_data" 조사시 mutex 를 획득하고 조사하므로 안전
 	while ( ! ready_data )	
 	{
 		cv.wait(ul);	// 1. ul.unlock()
