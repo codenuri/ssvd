@@ -17,8 +17,12 @@ using namespace std::literals;
 
 std::shared_mutex m; // lock(), unlock() 외에  
 					 // lock_shared(), unlock_shared() 추가로 제공
+					 // C++17 에서 도입
+					 // 흔히 "slim reader" 라는 용어를 사용하기도 합니다.
 
 int share_data = 0;
+
+
 
 void Writer()
 {
