@@ -11,7 +11,7 @@ using namespace std::literals;
 //		     C++20 부터 사용가능
 
 // #1. 전역변수로 생성
-std::semaphore sem(3);	// 최대 갯수가 3인 세마포어
+std::counting_semaphore<3> sem(3);	
 
 void Download(std::string name)
 {	
