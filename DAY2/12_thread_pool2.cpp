@@ -72,10 +72,20 @@ int main()
 	pool_init(4); // pool에 4개의 스레드를 만들어 달라.
 
 	// 스레드 풀에 4개의 작업을 넣는 코드
-//	pool_add_work(foo);
-//	pool_add_work(foo);
-//	pool_add_work(foo);
-//	pool_add_work(foo);
+	pool_add_work(foo);
+	pool_add_work(foo);
+	pool_add_work(foo);
+	pool_add_work(foo);
+
+	// 위 4개까지 동시 실행..
+	// 아래 2개는 위 4개중에 먼저 종료된 스레드가 수행
+	pool_add_work(foo);
+	pool_add_work(foo);
+
+
+	// 결국 아무리 많은 작업이 Q에 들어와도
+	// "4개" 의 스레드만 가지고 작업 수행
+	// => 시스템에 최적화된 스레드 갯수만 사용한다는 것이 장점
 
 	getchar(); // main 종료 방지를 위해
 }
