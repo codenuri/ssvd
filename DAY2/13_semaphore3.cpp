@@ -38,3 +38,7 @@ int main()
 	// 주스레드는 세마포어를 acquire()하지 않았지만 카운트 증가 가능
 	sem.release(); // ++sem.current_count;
 }
+
+// 정리
+// mutex     : 한개 스레드가 자원 독점
+// semaphore : N개  스레드가 자원 공유
