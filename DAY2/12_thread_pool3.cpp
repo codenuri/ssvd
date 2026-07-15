@@ -47,7 +47,7 @@ public:
 			{
 				std::unique_lock<std::mutex> ul(m);
 				
-				cv.wait(ul, []() { return !Q.empty() || stop; } );
+				cv.wait(ul, [this]() { return !Q.empty() || stop; } );
 
 				if ( stop == true && Q.empty() )
 					break;
@@ -59,6 +59,19 @@ public:
 		}
 	}
 
+	~ThreadPool()
+	{
+		// pool 을 중지
+		{
+			std::lock_guard<std::mutex> g(m);
+			stop = true;
+		}
+		cv.notify_all(); // pool의 모든 스레드를 깨우고
+
+		// 모든 스레드가 실제로 종료될때까지 대기
+		for( auto& t : v) 
+			t.join();
+	}
 };
 
 
@@ -70,9 +83,8 @@ int main()
 	pool.add(foo);
 	pool.add(foo);
 	pool.add(foo);
+} // <== pool 파괴. 소멸자 
 
-	getchar(); 
-}
 
 void foo()
 {
