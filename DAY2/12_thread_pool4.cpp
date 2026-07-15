@@ -3,6 +3,7 @@
 #include <thread>
 #include <queue>
 #include <mutex>
+#include <future>
 #include <condition_variable>
 using namespace std::literals;
 
@@ -23,14 +24,22 @@ int main()
 	//     의미 : 종료전에도 결과를 담는 변수를 만들수 있다는 점..
 	std::future<int> ft1 = std::async(add, 1, 2);
 
-	
-	// #3. std::packaged_task 를 사용하면 "함수 호출 전" 에도 결과를 담는 변수 생성이 가능합니다.
-	std::packaged_task<int(int, int)> task(add);
-	std::future<int> ft2 = task.get_future(); // add 를 호출(실행)한적도 없음..
 
-	std::thread t(std::ref(task), 1, 2);
+	// #3. std::packaged_task 를 사용하면 "함수 호출 전" 에도 결과를 담는 변수 생성이 가능합니다.
+	// => 위 std::async() 는 시작은 해야 std::future를 얻게 됩니다.
+	// => 아래 코드는 시작 전에 얻을수 있습니다.
+	std::packaged_task<int(int, int)> task(add);
+
+	std::future<int> ft2 = task.get_future(); // add 를 호출(실행)한적도 없음..
+										// 의미 : Q에 task 보관시, 실행전에도 결과 반환 가능
+
+	std::thread t(std::ref(task), 1, 2); // add(1, 2)
 
 	int ret2 = ft2.get();
 
 	t.join();
 }  
+
+// 결론 
+// => Q 에 작업을 std::packaged_task 형태로 보관하면
+// => 실제 실행전(보관 하는 순간) 함수의 결과를 담을 std::future 반환 가능
