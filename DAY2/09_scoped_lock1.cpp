@@ -14,10 +14,15 @@ struct  Account
 void transfer(Account& acc1, Account& acc2, int cnt)
 {
 	// 2개의 계좌에 접근하므로 "독점권 획득"후 사용
-	acc1.m.lock();
+	acc1.m.lock(); // 스레드 A : kim.lock() 후 lee.lock() 대기
+				   // 스레드 B : lee.lock() 후 kim.lock() 대기 라면 
+				   // => deadlock 발생
 	acc2.m.lock();
 	
-    acc1.money -= cnt;
+	// 즉, 위코드는 상황에 따라 deadlock (멈춤 현상 발생)
+
+
+    acc1.money -= cnt; 
     acc2.money += cnt;
     std::cout << "finish transfer" << std::endl;
 
