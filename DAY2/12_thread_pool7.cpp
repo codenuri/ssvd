@@ -66,8 +66,10 @@ public:
 	template<typename F, typename ... ARGS>
 	decltype(auto) pool_add(F&& f, ARGS&& ... args)
 	{
+		// 반환값의 타입 조사
 		using return_type = decltype(std::forward<F>(f)(std::forward<ARGS>(args)...));
 
+		// 아래는 동일
 		auto p = std::make_shared<std::packaged_task<return_type()>>(
 			std::bind(std::forward<F>(f), std::forward<ARGS>(args)...));
 
