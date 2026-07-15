@@ -53,3 +53,13 @@ int main()
     std::jthread t1(producer);
     std::jthread t2(consumer);
 }
+
+// 위 코드의 문제점
+// 가짜 깨움(Spurious wakeup) 또는 다른 소비자에 의한 상태 변경
+// cv.wait() <= 생산자가 notify() 하지 않아도 깨어날수 있다. - OS 의 구현에 따른 문제
+
+// condition_variable 의 실제 구현
+// => 각 OS 의 기능 사용
+
+// [해결책] 
+// => 다음 소스
