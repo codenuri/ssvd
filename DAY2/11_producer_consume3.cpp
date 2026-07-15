@@ -4,6 +4,8 @@
 #include <queue>
 #include <mutex>
 #include <condition_variable>
+#include <chrono>
+using namespace std::literals;
 
 std::queue<int> Q;
 
@@ -28,6 +30,8 @@ void producer()
 		}
 		cv.notify_one();
 		if (cnt == 1000000) cnt = 0;
+
+		std::this_thread::sleep_for(10ms); // 생산에 시간소요
 	}	
 }
 
