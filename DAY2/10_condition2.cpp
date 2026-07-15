@@ -5,6 +5,12 @@
 #include <condition_variable>
 using namespace std::literals;
 
+// 이 예제의 핵심
+// #1. std::conditional_variable 을 사용하는 이유
+// #2. 기본 코드 순서
+// #3. cv.wait(ul)의 정확한 동작 원리
+// #4. 생산자가 먼저 도착하면 ??? => 다음예제...
+
 std::mutex m;
 int shared_data = -1;
 
@@ -19,8 +25,16 @@ void consumer()
 	// => 1. std::unique_lock() 으로 mutex 획득
 	// => 2. cv.wait(ul) <= 이 순간 신호가 올때를 대기
 
-    std::unique_lock<std::mutex> ul(m);
-	cv.wait(ul);
+    std::unique_lock<std::mutex> ul(m); // mutex 획득
+
+	cv.wait(ul);	// 현재 mutex 는 획득 상태 입니다. cv.wait()가 하는 일은
+					// 1. ul.unlock() 을 사용해서 mutex 를 unlock
+					// 2. 신호 대기, 즉, mutex 를 놓고서 대기...
+					// 3. 신호가 오면 다시 ul.lock() 으로 mutex 획득후 아래 코드 실행
+
+					// => 위 처럼 unlock()을 해야 하므로 std::unique_lock 필요
+					// => 왜.. 먼저 mutex lock, wait 하나요 ? 그냥 wait 하면 되지 않나요 ?
+					//    마지막 단계에서 설명
 
     std::cout << "consume : " << shared_data << std::endl;
 }
