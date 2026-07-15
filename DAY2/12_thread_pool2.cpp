@@ -29,6 +29,33 @@ void pool_add_work(TASK task)
 	cv.notify_one();
 }
 
+
+
+// 아래 코드가 핵심 : pool 에 있는 모든 스레드가 수행하는 함수
+void pool_thread_main()
+{
+	while(true)
+	{
+		TASK task;
+		{
+			std::unique_lock<std::mutex> ul(m);
+			
+			// Q에 작업이 들어올때 까지 대기
+			cv.wait(ul, []() { return !Q.empty() || stop; } );
+			
+			// stop 변수가 설정되고, Q가 비었다면 pool 종료!!!
+			// => pool종료하면 stop 변수 세팅후, cv.notify_all()
+			if ( stop == true && Q.empty() )
+				break;
+
+			// Q에 놓인 작업 실행(첫번째 요소 꺼내서 호출)
+			task = Q.front();
+			Q.pop();
+		}
+		task(); // 작업실행
+	}
+}
+
 // pool 초기화(스레드 생성)
 void pool_init(int cnt)
 {
@@ -40,39 +67,17 @@ void pool_init(int cnt)
 	}
 }
 
-// 아래 코드가 핵심 : pool 에 있는 모든 스레드가 수행하는 함수
-void pool_thread_main()
-{
-	while(true)
-	{
-		{
-			std::unique_lock<std::mutex> ul(m);
-			
-			// Q에 작업이 들어올때 까지 대기
-			cv.wait(ul, []() { return !Q.empty(); } );
-			
-			// stop 변수가 설정되고, Q가 비었다면 pool 종료!!!
-			// => pool종료하면 stop 변수 세팅후, cv.notify_all()
-			if ( stop == true && Q.empty() )
-				break;
-
-			// Q에 놓인 작업 실행(첫번째 요소 꺼내서 호출)
-			Task task = Q.front();
-			Q.pop();
-		}
-		task(); // 작업실행
-	}
-}
-
 int main()
 {	
 	pool_init(4); // pool에 4개의 스레드를 만들어 달라.
 
 	// 스레드 풀에 4개의 작업을 넣는 코드
-//	Q.pool_add_work(foo);
-//	Q.pool_add_work(foo);
-//	Q.pool_add_work(foo);
-//	Q.pool_add_work(foo);
+//	pool_add_work(foo);
+//	pool_add_work(foo);
+//	pool_add_work(foo);
+//	pool_add_work(foo);
+
+	getchar(); // main 종료 방지를 위해
 }
 
 void foo()
