@@ -43,3 +43,5 @@ int main()
 // 결론 
 // => Q 에 작업을 std::packaged_task 형태로 보관하면
 // => 실제 실행전(보관 하는 순간) 함수의 결과를 담을 std::future 반환 가능
+
+// std::future<int> ft = pool.add( foo ); // pool 에 작업(foo) 등록시, foo 의 결과 담을 변수 반환
