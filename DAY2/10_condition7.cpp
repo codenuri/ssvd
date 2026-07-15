@@ -40,7 +40,8 @@ void Writer()
 			
 			ready_data = true;
 		}
-		cv.notify_one();
+		//cv.notify_one();
+		cv.notify_all();
 
         std::this_thread::sleep_for(10ms);
     }
