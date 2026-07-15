@@ -16,9 +16,18 @@ void foo(std::string_view name)
 									 // out 이 데이타를 동기화해서 버퍼에 모으고
 									 // std::cout 으로 출력
 
-	out << name << " : " << next3times() << std::endl; // 3
-	out << name << " : " << next3times() << std::endl; // 6
-	out << name << " : " << next3times() << std::endl; // 9
+	// 아래 코드는 줄단위 동기화 아닙니다.
+	// => 모든 데이타를 일단 out 내부 버퍼에 모으고
+	// => out 의 소멸자에서 한번에 std::cout 으로 출력
+//	out << name << " : " << next3times() << std::endl; // 3
+//	out << name << " : " << next3times() << std::endl; // 6
+//	out << name << " : " << next3times() << std::endl; // 9
+
+	// 줄단위 동기화 출력이 필요하면 아래 처럼..
+	// std::flush_emit : 현재까지 버퍼에 모은 데이터를 출력
+	out << name << " : " << next3times() << '\n' << std::flush_emit;
+	out << name << " : " << next3times() << '\n' << std::flush_emit;
+	out << name << " : " << next3times() << '\n' << std::flush_emit;
 }
 int main()
 {
