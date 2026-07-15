@@ -18,12 +18,15 @@ class ThreadPool
 	bool stop = false;  
 	std::vector<std::thread> v; 
 public:
-
-	void ThreadPool(int cnt)
+	ThreadPool(int cnt)
 	{
 		for(int i = 0; i < cnt; i++)
 		{
-			v.emplace_back( thread_main );
+//			v.emplace_back( thread_main ); // error
+										   // thread_main 은 이제 "일반함수" 가 아닌 "멤버함수"	입니다.
+										   // 객체 주소(this) 필요 합니다.
+
+			v.emplace_back( &ThreadPool::thread_main, this ); // std::thread t(&ThreadPool::thread_main, this)							   
 		}
 	}
 
@@ -35,7 +38,6 @@ public:
 		}
 		cv.notify_one();
 	}
-
 
 	void thread_main()
 	{
