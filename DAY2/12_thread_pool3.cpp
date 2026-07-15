@@ -8,6 +8,22 @@ using namespace std::literals;
 
 void foo();
 
+// 아래 ThreadPool 은
+// 1. std::mutex, std::condition_variable
+// 2. std::vector<thread>
+// 3. 멤버 함수를 스레드로 수행
+// 4. thread pool 의 개념
+
+// 을 잘 설명하는 코드 입니다.
+// => 기본 학습용 thread pool 코드
+
+// 문제점
+// 1. pool 에 넣을수 있는 함수의 모양이 제한적 (인자 없는 함수만 가능. 인자 전달 못함)
+// 2. 함수포인터만 보관, 람다 표현식등을 실행 안됨
+// 3. pool 로 수행하는 함수는 반환값을 가질수 없다.(작업 모양이 void(*)() 이다 )
+// => 해결할수 있지만 복잡해진다...
+// => 다음 단계에서 해결.. 
+
 
 class ThreadPool 
 {
@@ -73,7 +89,6 @@ public:
 			t.join();
 	}
 };
-
 
 int main()
 {	
