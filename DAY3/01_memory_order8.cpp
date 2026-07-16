@@ -24,7 +24,7 @@ public:
     {
 		if ( sinstance == nullptr )	 // A
 		{
-			std::lock_guard<std::mutex> g(m);
+			std::lock_guard<std::mutex> g(mtx);
 
 			if ( sinstance == nullptr )  // B
 			{

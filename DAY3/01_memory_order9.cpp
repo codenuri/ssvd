@@ -26,7 +26,7 @@ public:
 		//   sinstance.load(std::memory_order_seq_cst) == nullptr 의미
 		if ( sinstance == nullptr )	 
 		{
-			std::lock_guard<std::mutex> g(m);
+			std::lock_guard<std::mutex> g(mtx);
 
 			if ( sinstance == nullptr ) 
 			{

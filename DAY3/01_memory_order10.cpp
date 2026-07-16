@@ -26,13 +26,15 @@ public:
 	// 구글에서 "C++ DCLP" 검색후 "preshing.com" 자료 확인
 	// => 아래 구현을 처음으로 소개한 사이트
 	// => 많은 개발자가 참고한 C++ 업계의 유명한 자료
+
+	// 아래 코드가 복잡하면 "9.cpp" 소스를 사용해도 안전합니다.
+	// => 단, 아래 코드가 좀더 효율적인 기계어 생성
     static Singleton* getInstance()
     {
-		Singleton* temp = sinstance.load( std::memory_order_acquire ); 
-		
+		Singleton* temp = sinstance.load( std::memory_order_acquire ); 		
 		if ( temp == nullptr )	 
 		{
-			std::lock_guard<std::mutex> g(m);
+			std::lock_guard<std::mutex> g(mtx);
 			temp = sinstance.load(std::memory_order_relaxed ); 
 
 			if ( temp == nullptr ) 
