@@ -36,5 +36,15 @@ int main()
 	std::for_each(std::execution::par, v.begin(), v.end(), [&s2](int n) {s2 += n;});
 
 	std::cout << "result: " << s << '\n';
-
 }
+
+// C++ 표준관련
+// 2003 년에 N/W 오픈소스인 Asio 라는 것이 있었는데, 아주 잘만들어진 라이브러리
+// => Asio 를 C++11 N/W 표준 라이브러리로 채택하자..
+// => Asio 의 스레드 풀과 비동기 기술이 아주 좋다!!
+
+// 그러다가 "NDVIA" 일부 개발자가 다른 방식을 주장
+// => 단순 N/W 관련이 아닌 범용적 용도의 스레드/비동기 관리 기술을 만들자
+// => 채택!!
+// => C++26 의 std::execution
+// => C++29 에 std::execution 과 연동되는 N/W 표준 예상됨. 
