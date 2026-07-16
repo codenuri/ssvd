@@ -47,6 +47,7 @@ int main()
 	std::cout << *first << '\n';	// 반환값 1
 
 	++first;	// resume()	- foo #2
+				// first.operator++() { coro.resume(); } 의 원리 입니다
 
 	std::cout << *first << '\n';	// 반환값 2
 
