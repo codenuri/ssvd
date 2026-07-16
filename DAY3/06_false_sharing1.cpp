@@ -52,3 +52,9 @@ int main()
 	chronometry(single_thread);
 	chronometry(multi_thread);
 }
+
+// 위 예제는 멀티 스레드가 빠를것 같지만..
+// => 싱글 스레드 버전이 훨씬 빠릅니다.
+// => 왜 그럴까요 ?
+// => 해결책은 뭘까요 ?
+// => 다음 단계에서 해결
