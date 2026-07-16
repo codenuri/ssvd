@@ -1,7 +1,7 @@
 #include <iostream>
 #include <thread>
 #include "chronometry.h"
-constexpr int sz = 10'000;
+constexpr int sz = 1'000'000;
 
 // 핵심 
 // => dereferencing(*p) 는 결국 주소를 따라가서 메모리 접근하는것
