@@ -38,5 +38,20 @@ std::generator<int> foo()
 int main()
 {
     std::generator<int> gen = foo();	
+
+	// std::generator<int> 의 재미있는 규칙
+	// => resume() 을 하는 방법이 STL 반복자 스타일 입니다
+
+	auto first = gen.begin();		// resume()	- foo #1
+
+	std::cout << *first << '\n';	// 반환값 1
+
+	++first;	// resume()	- foo #2
+
+	std::cout << *first << '\n';	// 반환값 2
+
+	++first;	// resume(); - foo #2
 }
 
+
+// 컴파일시 -std=c++23 필요
