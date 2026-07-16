@@ -14,10 +14,15 @@ int main()
 
 	// 주어진 구간에서 처음 나오는 3의 배수를 찾고 싶다
 	// => std::find_if 알고리즘
-
 //	auto p = std::find_if(v.begin(), v.end(), 함수); // 여기서 함수는 인자가 한개이어야 합니다
 													 // "단항 함수"
-
 	auto p = std::find_if(v.begin(), v.end(), foo); 
 	std::cout << *p << std::endl;
+
+	// 이제 아래 주석을 생각해 보세요...
+	// 주어진 구간에서 처음 나오는 k의 배수를 찾고 싶다
+	// ??? 함수를 어떻게 만들어야 할까요 ?
+	// => foo 안에서 "3" 대신 "k" 를 사용해야 하는데, k는 main 의 지역변수
+	int k = 3;
+	auto p1 = std::find_if(v.begin(), v.end(), ??? ); 
 }
