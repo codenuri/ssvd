@@ -41,12 +41,34 @@ void use_lambda()
 	}
 }
 
+// cmp() 함수와 동일 기능의 함수 객체
+struct CMP 
+{
+	bool operator()(int a, int b) const 
+	{
+		return a < b;
+	}
+};
+
+void use_function_object()
+{
+	// 핵심 : 비교 정책으로 함수 객체 사용
+	CMP f;  // 인자가 2개인 함수와 동일하게 사용가능 
+			// => 인라인 치환 가능
+	for(int i = 0; i < 10; i++)
+	{
+		std::sort(v2.begin(), v2.end(), f);
+	}
+}
+
+
 int main()
 {
 	init();
 
 	chronometry(use_function);
 	chronometry(use_lambda);
+	chronometry(use_function_object);
 }
 
 // 빠른 이유
