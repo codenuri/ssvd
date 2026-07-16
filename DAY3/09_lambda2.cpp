@@ -6,6 +6,7 @@
 #include <vector>
 
 // 함수 객체의 장점
+bool foo(int n) { return n % 3 == 0; }
 
 int main()
 {
@@ -14,7 +15,9 @@ int main()
 	// 주어진 구간에서 처음 나오는 3의 배수를 찾고 싶다
 	// => std::find_if 알고리즘
 
-	auto p = std::find_if(v.begin(), v.end(), 함수);
-	
+//	auto p = std::find_if(v.begin(), v.end(), 함수); // 여기서 함수는 인자가 한개이어야 합니다
+													 // "단항 함수"
 
+	auto p = std::find_if(v.begin(), v.end(), foo); 
+	std::cout << *p << std::endl;
 }
