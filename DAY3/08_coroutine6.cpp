@@ -17,7 +17,13 @@ std::generator<int> foo()
 
 int main()
 {
+	std::vector<int> v = {1, 2, 3, 4, 5};
 
+	for( auto e : v )
+	{
+		std::cout << e << '\n';
+	}
+	// 위 for 문의 원리를 생각해 봅시다.
 }
 
 
