@@ -24,7 +24,7 @@ public:
 	{ 
 		// #2. 스마트 포인터가 필요할때는 shared_from_this() 함수 사용
 		// => std::enable_shared_from_this 에서 상속받는 멤버 함수
-		self = shared_from_this();  // 외부에서 만든 스마트 포인터의 control block 을 
+		auto self = shared_from_this();  // 외부에서 만든 스마트 포인터의 control block 을 
 									// 공유하는 스마트 포인터 생성
 		
 		std::thread t(&Machine::do_work, this, std::move(self) ); 
