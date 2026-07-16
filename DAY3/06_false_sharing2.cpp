@@ -12,13 +12,17 @@ constexpr int sz = 100000000;
 
 // 해결책 #1. n1, n2 사이에 캐쉬 크기의 임의 변수를 생성해서
 //           n1, n2 의 메모리를 캐쉬 크기 이상으로 떨어 뜨려 놓기
-
-
+/*
 unsigned long long n1 = 0;
-
 char padding[64]; // 64byte
-
 unsigned long long n2 = 0;
+*/
+
+// 해결책 #2. 변수 선언시 "변수의 시작 위치(주소)를 64바이트 단위" 로 설정하는 명령이 있습니다.
+// C 언어 : OS 마다 다름, windows 라면 "__declspec(align(64))"
+// C++ 언어 : 표준이 제공 "alignas(값)"
+alignas(64) unsigned long long n1 = 0;
+alignas(64) unsigned long long n2 = 0;
 
 
 void f1()
