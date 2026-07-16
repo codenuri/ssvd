@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <functional>
 
+
 // 람다 표현식을 정확히 이해하려면
 // 1. 함수 객체를 먼저 알아야 합니다
 // 2. 람다표현식은 함수 객체를 자동으로 만드는 표기법
@@ -38,6 +39,6 @@ int main()
 	// p(1,2); // p.operator()(1,2)
 
 	int n3 = std::max(1, 2); // C++98 버전의 C++ 표준 함수. 일반 함수 입니다.
-	int n4 = std::range::max(1, 2); // C++20 은 거의 모든 표준함수를 새로 만들었습니다. 함수객체입니다.
-	int n5 = std::range::max.operator()(1, 2); // 이렇게 사용가능
+	int n4 = std::ranges::max(1, 2); // C++20 은 거의 모든 표준함수를 새로 만들었습니다. 함수객체입니다.
+	int n5 = std::ranges::max.operator()(1, 2); // 이렇게 사용가능
 }
