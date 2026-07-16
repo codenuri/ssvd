@@ -8,17 +8,20 @@ constexpr int cnt = 1'000'000;
 
 std::vector<int> v1;
 std::vector<int> v2;
+std::vector<int> v3;
 
 void init()
 {
 	v1.reserve(cnt);
 	v2.reserve(cnt);
+	v3.reserve(cnt);
 
 	for( int i = 0; i < cnt; i++)
 	{
 		int n = rand();
 		v1.push_back(n);
 		v2.push_back(n);
+		v3.push_back(n);
 	}
 }
 
@@ -57,10 +60,9 @@ void use_function_object()
 			// => 인라인 치환 가능
 	for(int i = 0; i < 10; i++)
 	{
-		std::sort(v2.begin(), v2.end(), f);
+		std::sort(v3.begin(), v3.end(), f);
 	}
 }
-
 
 int main()
 {
