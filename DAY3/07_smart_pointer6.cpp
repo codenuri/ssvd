@@ -27,6 +27,8 @@ public:
 		// do_work 를 실행하는 동안 main sp 의 복사본을 인자 self 로 받게 되므로
 		// 이 함수가 종료 될때 까지 self 는 살아있습니다.
 		// 즉, Machine 객체 파괴 안됨. 
+		// => 새로운 스레드가 현재 객체의 소유권(파괴 막을 권리, self 의 참조계수로)을 가지고
+		//    실행 됨으로 안전
 		std::cout << "[Machine] start work\n";
 		data = 100;
 		std::this_thread::sleep_for(3s);
